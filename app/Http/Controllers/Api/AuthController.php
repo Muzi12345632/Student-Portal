@@ -19,7 +19,11 @@ class AuthController extends Controller
             "name" => "required",
             "email" => "required|email|unique:users",
             "password" => "required",
-            "user_type"=> "required"
+            "role_id"=> "required",
+            /*"contact_phone"=> "required",*/
+            "age"=> "required",
+            "sex"=> "required",
+            "address"=>"required"
         ]);
 
         // User Model
@@ -27,14 +31,18 @@ class AuthController extends Controller
             "name" => $request->name,
             "email" => $request->email,
             "password" => Hash::make($request->password),
-            "user_type" => $request->user_type
+            "role_id" => $request->role_id,
+            /*"contact_phone"=> $request->contact_phone,*/
+            "age"=> $request->age,
+            "sex"=> $request->sex,
+            "address"=> $request->address
         ]);
 
         // Response
         return response()->json([
             "status" => true,
             "message" => "User registered successfully"
-        ]);
+        ], 200);
     }
 
     // User Login (POST, formdata)
@@ -44,14 +52,14 @@ class AuthController extends Controller
         $request->validate([
             "email" => "required|email",
             "password" => "required",
-            "user_type" => "required"
+            /*"user_type" => "required"*/
         ]);
 
         // JWTAuth
         $token = JWTAuth::attempt([
             "email" => $request->email,
             "password" => $request->password,
-            "user_type" => $request->user_type
+            /*"user_type" => $request->user_type*/
         ]);
 
         if(!empty($token)){

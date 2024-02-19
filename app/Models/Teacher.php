@@ -15,11 +15,9 @@ class Teacher extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'contact_phone',
-        'user_type',
-        'class_id',
+        
+        'user_id',
+        'biography',
     ];
 
     // Teacher.php

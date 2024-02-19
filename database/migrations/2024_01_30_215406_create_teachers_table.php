@@ -13,12 +13,11 @@ return new class extends Migration
     {
         Schema::create('teachers', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('contact_phone');
-            $table->string('email');
-            $table->string('user_type')->default('teacher');
-            $table->unsignedBigInteger('class_id')->nullable();
-            $table->foreign('class_id')->references('id')->on('classes')->onDelete('set null');
+            $table->text('biography');
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
+            /*$table->unsignedBigInteger('class_id')->nullable();
+            $table->foreign('class_id')->references('id')->on('classes')->onDelete('set null');*/
             $table->timestamps();
         });
     }

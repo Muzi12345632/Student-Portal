@@ -1,4 +1,4 @@
- <?php
+<?php
 
 namespace Database\Factories;
 
@@ -30,9 +30,13 @@ class UserFactory extends Factory
     {
         return [
             'name' => $this->faker->name(),
+            'age'=>$this->faker->numberBetween(12,25),
+            'sex'=>$this->faker->randomElement(['Male','Female']),
+            'role_id'=> \App\Models\Role::all()->random()->id,
             'email' => $this->faker->unique()->safeEmail(),
+            /*'contact_phone'=> $this->faker->phoneNumber(),*/
             'email_verified_at' => now(),
-            'user_type'=> 'student',
+            'address'=>$this->faker->streetAddress(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
         ];

@@ -16,14 +16,15 @@ class Courses extends Model
      */
     protected $fillable = [
         'name',
-        //'teacher_id',
+        'description',
         'course_code',
+        'teacher_id',
         'class_id',
     ];
 
     //course for class
     public function class(){
-        return $this-> belongsTo(Classes::class)->select('id','name');
+        return $this-> belongsTo(Classes::class)->select('id','class_name');
     }
 
 
@@ -37,7 +38,7 @@ class Courses extends Model
     //course has one teacher
     public function teacher ()
     {
-        return $this->belongsTo(Teacher::class);
+        return $this->belongsTo(Teacher::class)->select('id','name');
     }
 
 

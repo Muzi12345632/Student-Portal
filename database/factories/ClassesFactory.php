@@ -22,9 +22,10 @@ class ClassesFactory extends Factory
     {
         return [
             //
-            'name'=>$this->faker->unique()->sentence($nbWords=1, $variableWords=true),
-            /*'teacher_id'=> function() { return factory(Teacher::class)->create()->id;},*/
-            /*'teacher_id'=> \App\Models\Teacher::all()->random()->id,
-*/        ];
+            'class_name'=>$this->faker->unique()->sentence($nbWords=1, $variableWords=true),
+            'description' => $this->faker->sentence($nbWords=10, $variableWords=true),
+            /*'course_id' => \App\Models\Courses::all()->random()->id,*/
+            
+        ];
     }
 }

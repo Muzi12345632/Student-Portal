@@ -25,11 +25,10 @@ class TeacherFactory extends Factory
 
         return [
             //
-            'name'=>$name,
-            'email'=>$this->faker->email(),
-            'contact_phone'=>$this->faker->phoneNumber(),
-            'class_id'=> \App\Models\Classes::all()->random()->id,
-            'user_type'=>$this->faker->randomElement(['teacher']),
+            'user_id'=> \App\Models\User::all()->random()->id,
+            'biography' => $this->faker->sentence($nbWords=100, $variableWords=true),
+            /*'class_id'=> \App\Models\Classes::all()->random()->id,*/
+            
         ];
     }
 }

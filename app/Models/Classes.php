@@ -15,12 +15,11 @@ class Classes extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        //'teacher_id',
+        'class_name',
     ];
 
     public function teacher(){
-        return $this->belongsTo(Teacher::class);
+        return $this->belongsTo(Teacher::class)->select('id','user_id','name');
     }
 
     public function students(){

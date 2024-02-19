@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Student;
+use App\Models\User;
 use App\Http\Requests\StoreStudentRequest;
 use App\Http\Requests\UpdateStudentRequest;
 use Illuminate\Support\Facades\Hash;
@@ -19,7 +20,7 @@ class StudentController extends Controller
     {
         //
         $this->authorize("view", auth()->user());
-        return Student::paginate();
+        return User::with('student','role')->paginate(10);
     }
 
     /**

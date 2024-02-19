@@ -10,6 +10,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use App\Models\Student;
 use App\Models\Teacher;
+use App\Models\Role;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -25,7 +26,9 @@ class User extends Authenticatable implements JWTSubject
         'email',
         'password',
         'contact_phone',
-        'user_type',
+        'age',
+        'sex',
+        'address',
     ];
 
     /**
@@ -63,7 +66,7 @@ class User extends Authenticatable implements JWTSubject
     /**
      * Checks if user is admin
      */
-    public function isAdmin()
+    /*public function isAdmin()
     {
         return $this->user_type === 'admin';
     }
@@ -78,6 +81,11 @@ class User extends Authenticatable implements JWTSubject
     public function isTeacher()
     {
         return$this->user_type === 'teacher';
+    }*/
+
+    public function role ()
+    {
+        return $this->belongsTo(Role::class);
     }
 
     public function teacher()

@@ -19,7 +19,7 @@ class Courses extends Model
         'description',
         'course_code',
         'teacher_id',
-        'class_id',
+        'classes_id',
     ];
 
     //course for class

@@ -32,10 +32,10 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@gmail.com',
             'password' => Hash::make('password'),
             'role_id' => Role::ADMIN
-        ])
-        ->each(function (\App\Models\User $u) {
+        ]);
+        /*->each(function (\App\Models\User $u) {
             \App\Models\Student::factory(1)->create(['user_id' => $u->id]);
-        });
+        });*/
 
 
 

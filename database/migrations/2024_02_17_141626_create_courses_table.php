@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('course_code');
             $table->string('description');
-            $table->unsignedBigInteger('class_id')->nullable();
-            $table->foreign('class_id')->references('id')->on('classes')->onDelete('set null');
+            $table->unsignedBigInteger('classes_id')->nullable();
+            $table->foreign('classes_id')->references('id')->on('classes')->onDelete('set null');
             $table->unsignedBigInteger('teacher_id')->nullable();
             $table->foreign('teacher_id')->references('id')->on('teachers')->onDelete('set null');
             $table->timestamps();

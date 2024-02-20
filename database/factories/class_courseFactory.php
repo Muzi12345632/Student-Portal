@@ -18,6 +18,8 @@ class class_courseFactory extends Factory
     {
         return [
             //
+            'class_id'=> \App\Models\Classes::all()->random()->id,
+            'course_id' => \App\Models\Courses::all()->random()->id,
         ];
     }
 }

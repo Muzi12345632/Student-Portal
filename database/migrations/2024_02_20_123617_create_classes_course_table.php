@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('class_course', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('class_id')->nullable();
-            $table->foreign('class_id')->references('id')->on('classes')->onDelete('set null');
+            $table->unsignedBigInteger('classes_id')->nullable();
+            $table->foreign('classes_id')->references('id')->on('classes')->onDelete('set null');
             $table->unsignedBigInteger('course_id')->nullable();
             $table->foreign('course_id')->references('id')->on('courses')->onDelete('set null');
+            $table->unsignedBigInteger('teacher_id')->nullable();
+            $table->foreign('teacher_id')->references('id')->on('teachers')->onDelete('set null');
             $table->timestamps();
         });
     }

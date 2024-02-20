@@ -19,15 +19,15 @@ class Classes extends Model
     ];
 
     public function teacher(){
-        return $this->belongsTo(Teacher::class)->select('id','user_id','name');
+        return $this->hasMany(Teacher::class)->select('user_id','name','biography');
     }
 
     public function students(){
-        return $this->hasMany(Student::class);
+        return $this->hasMany(Student::class)->select('user_id','name','age','contact_phone','address');
     }
 
     public function courses()
     {
-        return $this->hasMany(Courses::class)->select('id', 'name','course_code');
+        return $this->hasMany(Courses::class)->select('name','course_code');
     }
 }

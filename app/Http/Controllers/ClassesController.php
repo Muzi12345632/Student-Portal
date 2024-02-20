@@ -15,7 +15,7 @@ class ClassesController extends Controller
     {
         //
         $this->authorize("view", auth()->user());
-        return Classes::paginate();
+        return Classes::with('teacher', 'students','courses')->paginate(5);
     }
 
     /**

@@ -60,6 +60,10 @@ class UserController extends Controller
     public function show(User $user)
     {
         //
+         $this->authorize("view", auth()->user());
+        //$student = Student::find($id);
+        return User::with('class');
+        
     }
 
     /**

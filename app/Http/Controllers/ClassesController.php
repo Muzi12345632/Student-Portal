@@ -14,8 +14,9 @@ class ClassesController extends Controller
     public function index()
     {
         //
-        $this->authorize("view", auth()->user());
-        return Classes::with('teacher', 'students','courses')->paginate(5);
+        //$this->authorize("view", auth()->user());
+        //return Classes::all())->paginate(10);
+        return Classes::with('students')->get();
     }
 
     /**
@@ -37,9 +38,11 @@ class ClassesController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Classes $classes)
+    public function show($id)
     {
         //
+        //$this->authorize("view", auth()->user());
+        return Classes::with('students')->where('id',$id)->get();
     }
 
     /**

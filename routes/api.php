@@ -7,6 +7,7 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\ClassesController;
 use App\Http\Controllers\CoursesController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,7 +23,8 @@ use App\Http\Controllers\CoursesController;
 Route::post("register", [AuthController::class, "register"]);
 Route::post("login", [AuthController::class, "login"]);
 //Route::get("students", [StudentController::class, "index"]);
-//Route::post("students", [StudentController::class, "store"]);
+Route::post("student/register", [StudentController::class, "store"]);
+Route::post("students/registerClass", [StudentController::class, "registerClass"]);
 
 Route::middleware('auth')->get('/user', function (Request $request) {
 
@@ -38,8 +40,12 @@ Route::group([
     Route::get("logout", [AuthController::class, "logout"]);
 
     Route::get("students", [StudentController::class, "index"]);
+    Route::get("students/profile", [StudentController::class, "profile"]);
     Route::get("students/{id}", [StudentController::class, "show"]);
     Route::post("students", [StudentController::class, "create"]);
+    Route::post("registerClass", [StudentController::class, "registerClass"]);
+
+    Route::get("user/{}", [UserController::class, "show"]);
 
     Route::get("teachers", [TeacherController::class, "index"]);
     Route::get("teachers/{id}", [TeacherController::class, "show"]);

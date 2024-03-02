@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Student;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
@@ -23,11 +24,12 @@ class AuthController extends Controller
             /*"contact_phone"=> "required",*/
             "age"=> "required",
             "sex"=> "required",
-            "address"=>"required"
+            "address"=>"required",
+            "classes_id"=>"required"
         ]);
 
         // User Model
-        User::create([
+        $user = User::create([
             "name" => $request->name,
             "email" => $request->email,
             "password" => Hash::make($request->password),
@@ -35,8 +37,18 @@ class AuthController extends Controller
             /*"contact_phone"=> $request->contact_phone,*/
             "age"=> $request->age,
             "sex"=> $request->sex,
-            "address"=> $request->address
+            "address"=> $request->address,
+            "classes_id"=>$request->classes_id
         ]);
+
+        /*$student = new Student();
+        $student->user_id = $user->id;
+        $student->save();*/
+
+        $student = new Student();
+        $student->user_id = $user->id;
+        $student->classes_id = $request->input('classes_id');
+        $student->save();
 
         // Response
         return response()->json([

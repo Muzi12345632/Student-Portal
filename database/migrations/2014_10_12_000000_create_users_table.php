@@ -24,7 +24,7 @@ return new class extends Migration
 
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('role_id')->default(Role::STUDENT);
+            $table->unsignedInteger('role_id');
             $table->foreign('role_id')->references('id')->on('roles');
             $table->string('name');
             $table->string('age');
@@ -45,6 +45,14 @@ return new class extends Migration
             $table->timestamps();
         });*/
 
+        Schema::create('classes', function (Blueprint $table) {
+            $table->id();
+            $table->string('class_name');
+            $table->text('description');
+            /*$table->unsignedBigInteger('cousre_id')->nullable();
+            $table->foreign('course_id')->references('id')->on('courses')->onDelete('set null');*/
+            $table->timestamps();
+        });
 
     }
 

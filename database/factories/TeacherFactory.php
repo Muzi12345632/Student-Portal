@@ -26,8 +26,8 @@ class TeacherFactory extends Factory
         return [
             //
             'user_id'=> \App\Models\User::all()->random()->id,
-            'biography' => $this->faker->sentence($nbWords=100, $variableWords=true),
-            /*'class_id'=> \App\Models\Classes::all()->random()->id,*/
+            'biography' => $this->faker->sentence($nbWords=60, $variableWords=true),
+            'courses_id'=> \App\Models\Courses::all()->random()->id,
             
         ];
     }

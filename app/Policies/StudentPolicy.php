@@ -18,7 +18,9 @@ class StudentPolicy
      */
     public function before(User $user)
     {
-        if ($user->isAdmin()) {
+        Log::info('User roles: ' . json_encode($user->roles()->pluck('name')->toArray()));
+        
+        if ($user->role()->ADMIN) {
             return true;
         }
     }
@@ -35,10 +37,12 @@ class StudentPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Student $student): bool
+    public function view(User $user, User $model): bool
     {
         //
-        return $user->id === $student->id;
+        
+
+        return true;
     }
 
     /**

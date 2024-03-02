@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Courses;
+use App\Models\Student;
 use App\Http\Requests\StoreCoursesRequest;
 use App\Http\Requests\UpdateCoursesRequest;
 
@@ -14,8 +15,8 @@ class CoursesController extends Controller
     public function index()
     {
         //
-        $this->authorize("view", auth()->user());
-        return Courses::paginate();
+        //$this->authorize("view", auth()->user());
+        return Courses::with('students')->get();
     }
 
     /**
@@ -37,9 +38,10 @@ class CoursesController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Courses $courses)
+    public function show($id)
     {
         //
+        return Courses::with('students')->where('id',$id)->get();
     }
 
     /**

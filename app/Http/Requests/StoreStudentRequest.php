@@ -23,15 +23,7 @@ class StoreStudentRequest extends FormRequest
     {
         return [
             //
-            'name' => 'required|string|max:255',
-            'email' => 'required|string',
-            'sex' => 'required|string',
-            'age' => 'required|string ',
-            'student_class_id' => 'required|integer',
-            'user_type' => 'required|string',
-            'address' => 'required|string',
-            'grade' => 'required|string',
-            'password' => 'required|string|min:6'
+            
             
         ];
     }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Student;
 use App\Models\User;
+use App\Models\Role;
 use App\Http\Requests\StoreStudentRequest;
 use App\Http\Requests\UpdateStudentRequest;
 use Illuminate\Support\Facades\Hash;
@@ -13,14 +14,31 @@ use Illuminate\Http\Request;
 
 class StudentController extends Controller
 {
+
+    //Get profile for authenticated Student
+
+    public function profile(){
+
+        $userdata = auth()->user();
+
+        $userdata->Student::get();
+
+        return response()->json([
+            "status" => true,
+            "message" => "Profile data",
+            "data"=>$userdata
+        ]);
+    }
+
+
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Student $student)
     {
         //
         $this->authorize("view", auth()->user());
-        return User::with('student','role')->paginate(10);
+        return Student::with('user','courses')->get();
     }
 
     /**
@@ -29,40 +47,7 @@ class StudentController extends Controller
     public function create(Request $request)
     {
         //
-        /*$this->authorize("create", auth()->user());
-        return Student::all()*/;
-        $this->authorize("create", auth()->user());
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string',
-            'sex' => 'required|string',
-            'age' => 'required|string ',
-            'student_class_id' => 'required|integer',
-            'user_type' => 'required|string',
-            'address' => 'required|string',
-            'grade' => 'required|string',
-            'password' => 'required|string|min:6'
-            // Add more validation rules as needed
-        ]);
-
-
-        Student::create([
-
-            "name"=>$request->name,
-            "email"=>$request->email,
-            "sex"=>$request->sex,
-            "age"=>$request->age,
-            "student_class_id"=>$request->student_class_id,
-            "user_type"=>$request->user_type,
-            "grade"=>$request->grade,
-            "address"=>$request->address,
-            "password"=>Hash::make($request->password)
-        ]);
-
-        $data = auth()->user();
-
-        return response()->json(["message"=> "Student successsfully created", "status"=>true, "data"=>$data], 201);
-
+        
     }
 
     /**
@@ -71,50 +56,44 @@ class StudentController extends Controller
     public function store(StoreStudentRequest $request)
     {
         //
-        $this->authorize("create", auth()->user());
+        // data validation
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string',
-            'sex' => 'required|string',
-            'age' => 'required|string ',
-            'student_class_id' => 'required|integer',
-            'user_type' => 'required|string',
-            'address' => 'required|string',
-            'grade' => 'required|string',
-            'password' => 'required|string|min:6'
+            "name" => "required",
+            "email" => "required|email|unique:users",
+            "password" => "required",
+            "role_id"=> "required",
+            /*"contact_phone"=> "required",*/
+            "age"=> "required",
+            "sex"=> "required",
+            "address"=>"required"
+            
 
-            // Add more validation rules as needed
         ]);
 
-        Student::create([
-
-            "name"=>$request->name,
-            "email"=>$request->email,
-            "sex"=>$request->sex,
-            "age"=>$request->age,
-            "student_class_id"=>$request->student_class_id,
-            "user_type"=>$request->user_type,
-            "grade"=>$request->grade,
-            "address"=>$request->address,
-            "password"=>Hash::make($request->password)
+        // User Model
+        $user = User::create([
+            "name" => $request->name,
+            "email" => $request->email,
+            "password" => Hash::make($request->password),
+            "role_id" => $request->role_id,
+            /*"contact_phone"=> $request->contact_phone,*/
+            "age"=> $request->age,
+            "sex"=> $request->sex,
+            "address"=> $request->address
+            
         ]);
 
-        $data1v = auth()->user();
+        $student = new Student();
+        $student->user_id = $user->id;
+        $student->classes_id = $request->input('classes_id');
+        $student->save();
 
-        /*$student = Student::create($request->all());*/
-        /*$student = new Student();
-        $student->name = $request->name;
-        $student->email = $request->email;
-        $student->sex = $request->sex;
-        $student->age = $request->age;
-        $student->student_class_id = $request->student_class_id;
-        $student->user_type = $request->user_type;
-        $student->grade = $request->grade;
-        $student->address = $request->address;
-        $student->password = Hash::make($request->password);
-        $student->save();*/
-
-        return response()->json(["message"=> "Student successsfully created", "status"=>true, "data"=>$data1], 201);
+        // Response
+        return response()->json([
+            "status" => true,
+            "message" => "User registered successfully"
+        ], 200);
+        
     }
 
     /**
@@ -126,9 +105,9 @@ class StudentController extends Controller
     public function show($id)
     {
         //
-        $this->authorize("viewAny", auth()->user());
-        $student = Student::find($id);
-        return $student;
+        //$this->authorize("view", auth()->user());
+        
+        return Student::with('user','courses')->where('id', $id)->paginate(25);
     }
 
     /**
@@ -169,20 +148,20 @@ class StudentController extends Controller
 
     public function registerClass(Request $request){
 
-        //validate
+        // Validate the request
         $request->validate([
-            'class_id' => 'required|exists:classes.id',
+            'classes_id' => 'required',
+            'courses' => 'required|array',
+            'courses.*' => 'required|exists:courses,id',
         ]);
 
-        //get authenticated students
-        $student->auth()->user();
+        // Create a new student
+        $student = new Student();
+        $student->classes_id = $request->input('classes_id');
+        $student->save();
 
-        if($student->class()->where('class_id', $request->class_id)->exists())
-        {
-            return response()->json(['message'=> 'Student already registered for this class'], 400);
-        }
-
-        $student->class()->attach($request->class_id);
+        // Attach the selected courses to the student
+        $student->courses()->sync($request->input('courses'));
 
         return response()->json(['message'=>'Student successsfully registered for class'], 200);
     }

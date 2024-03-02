@@ -63,39 +63,23 @@ class User extends Authenticatable implements JWTSubject
     }
 
 
-    /**
-     * Checks if user is admin
-     */
-    /*public function isAdmin()
-    {
-        return $this->user_type === 'admin';
-    }
-
-    //checks if user is student
-    public function isStudent()
-    {
-        return$this->user_type === 'student';
-    }
-
-    //cheecks if user is student
-    public function isTeacher()
-    {
-        return$this->user_type === 'teacher';
-    }*/
-
+    //this is a one-TO-one relationship
     public function role ()
     {
-        return $this->belongsTo(Role::class);
+        return $this->hasOne(Role::class);
     }
 
+    //this is a one-TO-one relationship
     public function teacher()
     {
         return $this->hasOne(Teacher::class);
     }
 
+    //this is a one-TO-one relationship
     public function student()
     {
         return $this->hasOne(Student::class);
     }
+
 
 }

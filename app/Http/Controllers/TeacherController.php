@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Teacher;
+use App\Models\User;
+use App\Models\Role;
 use App\Http\Requests\StoreTeacherRequest;
 use App\Http\Requests\UpdateTeacherRequest;
 
@@ -16,7 +18,7 @@ class TeacherController extends Controller
         //
         //
         $this->authorize("view", auth()->user());
-        return Teacher::paginate();
+        return User::with('teacher','class')->where('role_id', Role::TEACHER)->paginate(10);
     }
 
     /**
@@ -54,9 +56,9 @@ class TeacherController extends Controller
     public function show($id)
     {
         //
-        $this->authorize("viewAny", auth()->user());
-        $teacher = Teacher::find($id);
-        return $teacher;
+        $this->authorize("view", auth()->user());
+        //$teacher = Teacher::find($id);
+        return Teacher::with('user')->find($id);
     }
 
     /**

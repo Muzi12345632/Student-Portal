@@ -34,7 +34,7 @@ class Courses extends Model
     //course for class
     //this is a one-TO-many relationship
     public function class(){
-        return $this-> belongsTo(Classes::class);
+        return $this-> belongsTo(Classes::class,'classes_teachers');
     }
 
 
@@ -50,7 +50,7 @@ class Courses extends Model
     //this is a one-TO-many relationship
     public function teacher ()
     {
-        return $this->belongsTo(Teacher::class);
+        return $this->belongsTo(Teacher::class,'teachers');
     }
 
 

@@ -41,7 +41,7 @@ class Teacher extends Model
     //this is a one-TO-Many relationship 
     public function courses()
     {
-        return $this->hasManyThrough(Courses::class,Classes::class);
+        return $this->hasMany(Courses::class);
     }
 
     //classes for teacher

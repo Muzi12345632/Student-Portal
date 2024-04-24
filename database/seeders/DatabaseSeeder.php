@@ -59,19 +59,23 @@ class DatabaseSeeder extends Seeder
         //$teacher = Teacher::factory()->count(1)->create();
 
         // Create teacher users
-        //User::factory(10)->with('teacher')->create(['role_id' => Role::TEACHER]);
+        //User::factory(10)->has(Teacher::factory(), 'teacher')->create(['role_id' => Role::TEACHER]);
 
 
 
-        $user = User::factory(20)->create([
+        $user1 = User::factory(20)->create([
             
             'role_id' => Role::TEACHER
-        ]);
+        ])
+        ->each(function (User $user) {
+            //Teacher::factory()->create(['user_id' => $user->id]);
+            //$user->teacher->factory()->count(1)->create(['user_id'=>$user->id]);
+        });
 
 
         DB::table('teachers')->insert([
             [
-                'user_id'  => 1,
+                'user_id'  => 202,
                 'biography' => 'first teacher to be recorded in system',
                 'course_id' => 2,
             ]

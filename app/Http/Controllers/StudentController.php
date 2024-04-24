@@ -15,13 +15,20 @@ use Illuminate\Http\Request;
 class StudentController extends Controller
 {
 
+    //all routes are protected now 
+    /*public function __construct(){
+        $this->middleware('auth');
+    }*/
+
     //Get profile for authenticated Student
 
     public function profile(){
 
         $userdata = auth()->user();
 
-        $userdata->Student::get();
+        //Test this line of code
+
+        $userdata->Student::with('courses')->get();
 
         return response()->json([
             "status" => true,
@@ -37,7 +44,7 @@ class StudentController extends Controller
     public function index(Student $student)
     {
         //
-        $this->authorize("view", auth()->user());
+        //$this->authorize("view", auth()->user());
         return Student::with('user','courses')->get();
     }
 
